@@ -104,11 +104,11 @@ const Game = () => {
               best = Math.min(best, minmax(board, depth + 1, !isMax))
               board[i][j] = '-'
             }
-            else{
-              board[i][j] = bot
-              best = Math.min(best, minmax(board, depth + 1, !isMax))
-              board[i][j] = 'x'
-            }
+            //else{
+            //  board[i][j] = bot
+            //  best = Math.min(best, minmax(board, depth + 1, !isMax))
+            //  board[i][j] = 'x'
+            //}
           }
         }
       }
