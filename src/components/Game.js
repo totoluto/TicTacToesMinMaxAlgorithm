@@ -99,10 +99,15 @@ const Game = () => {
       for (let i = 0; i < 3; i++){
         for (let j = 0; j < 3; j++){
           if(board[i][j] === '-'){
-            if(board[i][j] !=== player){
+            if(board[i][j] !== player){
               board[i][j] = bot
               best = Math.min(best, minmax(board, depth + 1, !isMax))
               board[i][j] = '-'
+            }
+            else{
+              board[i][j] = bot
+              best = Math.min(best, minmax(board, depth + 1, !isMax))
+              board[i][j] = 'x'
             }
           }
         }
