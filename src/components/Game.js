@@ -4,6 +4,7 @@ import {useState} from "react";
 
 const Game = () => {
   const [squares, setSquares] = useState(Array(9).fill(null))
+  const [miniMaxBot, setMiniMaxBot] = useState("")
   let state = {
     history: [
       {
@@ -14,7 +15,6 @@ const Game = () => {
     xIsNext: true
   };
   const winner = calculateWinner(state.history[state.stepNumber]);
-  const xO = state.xIsNext ? "X" : "O";
 
   function isBoardFilled(squares) {
     for (let i = 0; i < squares.length; i++) {
@@ -64,6 +64,7 @@ const Game = () => {
           }
         }
       }
+      setMiniMaxBot("Computer played with a Score of: " + best.score)
       return best;
     };
     return minimax(squares, true).square;
@@ -88,7 +89,6 @@ const Game = () => {
     };
 
     setSquares(tmpSquares)
-    console.log(nextState)
 
     return state = nextState
   }
@@ -103,20 +103,20 @@ const Game = () => {
     }
   }
 
-  const jumpTo = (step) => {
-    state.stepNumber = step;
-    state.xIsNext = (step % 2 === 0);
+  const start = () => {
+    state.stepNumber = 0;
+    state.xIsNext = true;
+    setSquares(Array(9).fill(null))
   };
 
   const renderMoves = () =>
-      state.history.map((_step, move) => {
-        const destination = move ? `Go to move #${move}` : "Go to Start";
+      {
         return (
-            <li key={move}>
-              <button onClick={() => jumpTo(move)}>{destination}</button>
+            <li>
+              <button onClick={() => start()}>Restart</button>
             </li>
         );
-      });
+      };
 
   return (
       <>
@@ -127,7 +127,9 @@ const Game = () => {
             <h3>History</h3>
             {renderMoves()}
           </div>
-          <h3>{winner ? "Winner: " + winner : "Next Player: " + xO}</h3>
+          <div>
+            <h3>{miniMaxBot}</h3>
+          </div>
         </div>
       </>
   );
