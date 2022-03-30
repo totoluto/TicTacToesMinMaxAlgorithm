@@ -96,7 +96,7 @@ const Game = () => {
         }
       ]),
       stepNumber: history.length,
-      xIsNext: !this.state.xIsNext
+      xIsNext: !state.xIsNext
     };
 
     return state = (nextState)
@@ -119,27 +119,27 @@ const Game = () => {
   };
 
   const renderMoves = () =>
-    state.history.map((_step, move) => {
-      const destination = move ? `Go to move #${move}` : "Go to Start";
-      return (
-        <li key={move}>
-          <button onClick={() => jumpTo(move)}>{destination}</button>
-        </li>
-      );
-    });
+      state.history.map((_step, move) => {
+        const destination = move ? `Go to move #${move}` : "Go to Start";
+        return (
+            <li key={move}>
+              <button onClick={() => jumpTo(move)}>{destination}</button>
+            </li>
+        );
+      });
 
   return (
-    <>
-      <h1>React Tic Tac Toe</h1>
-      <Board squares={state.history[state.stepNumber]} onClick={handleClick} />
-      <div className="info-wrapper">
-        <div>
-          <h3>History</h3>
-          {renderMoves()}
+      <>
+        <h1>React Tic Tac Toe</h1>
+        <Board squares={state.history[state.stepNumber].squares} onClick={handleClick} />
+        <div className="info-wrapper">
+          <div>
+            <h3>History</h3>
+            {renderMoves()}
+          </div>
+          <h3>{winner ? "Winner: " + winner : "Next Player: " + xO}</h3>
         </div>
-        <h3>{winner ? "Winner: " + winner : "Next Player: " + xO}</h3>
-      </div>
-    </>
+      </>
   );
 };
 
