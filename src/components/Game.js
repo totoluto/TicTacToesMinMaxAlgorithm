@@ -1,11 +1,13 @@
 import { calculateWinner } from "../helper";
 import Board from "./Board";
+import {useState} from "react";
 
 const Game = () => {
+  const [squares, setSquares] = useState(Array(9).fill(null))
   let state = {
     history: [
       {
-        squares: Array(9).fill(null)
+        squares: squares
       }
     ],
     stepNumber: 0,
@@ -40,78 +42,66 @@ const Game = () => {
       // If Tie, score is 0
       if (isBoardFilled(squares)) return { square: -1, score: 0 };
 
-      // Initialize 'best'. If isMax, we want to maximize score, and minimize otherwise.
       const best = { square: -1, score: isMax ? -1000 : 1000 };
 
-      // Loop through every square on the board
       for (let i = 0; i < squares.length; i++) {
-        // If square is already filled, it's not a valid move so skip it
         if (squares[i]) {
           continue;
         }
-
-        // If square is unfilled, then it's a valid move. Play the square.
         squares[i] = isMax ? player : opponent;
-        // Simulate the game until the end game and get the score,
-        // by recursively calling minimax.
         const score = minimax(squares, !isMax).score;
-        // Undo the move
         squares[i] = null;
 
         if (isMax) {
-          // Maximizing player; track the largest score and move.
           if (score > best.score) {
             best.score = score;
             best.square = i;
           }
         } else {
-          // Minimizing opponent; track the smallest score and move.
           if (score < best.score) {
             best.score = score;
             best.square = i;
           }
         }
       }
-
-      // The move that leads to the best score at end game.
       return best;
     };
-
-    // The best move for the 'player' given current board
     return minimax(squares, true).square;
   }
 
   function makeMove(i){
     const history = state.history.slice(0, state.stepNumber + 1);
     const current = history[history.length - 1];
-    const squares = current.squares.slice();
+    const tmpSquares = current.squares.slice();
 
-    if(winner || squares[i]) return;
+    if(winner || tmpSquares[i]) return;
 
-    squares[i] = state.xIsNext ? "X" : "O";
+    tmpSquares[i] = state.xIsNext ? "X" : "O";
     const nextState = {
       history: history.concat([
         {
-          squares: squares
+          squares: tmpSquares
         }
       ]),
       stepNumber: history.length,
       xIsNext: !state.xIsNext
     };
 
-    return state = (nextState)
+    setSquares(tmpSquares)
+    console.log(nextState)
+
+    return state = nextState
   }
 
-  async function handleClick(i) {
-    await makeMove(i)
+  function handleClick(i) {
+    makeMove(i)
 
     const squares = state.history[state.stepNumber].squares.slice();
     const bestSquare = findBestSquare(squares, state.xIsNext ? "X" : "O");
     if (bestSquare !== -1){
-      await makeMove(bestSquare);
+      makeMove(bestSquare);
     }
   }
-
 
   const jumpTo = (step) => {
     state.stepNumber = step;
