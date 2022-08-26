@@ -1,4 +1,18 @@
-# Getting Started with Create React App
+# tictactoesminimaxalgorithm
+
+This is an Project which was made for a school project. I needed to choose an algorithm which I needed to implement into a Website. I chose the Minimax-Algorithm because i thought it was an intresting one.
+
+## How does it work?
+
+The Algorithm has all the possibilities of winning in a function called `calculateWinner` and he goes through the courrent gamefield and figures out if someone won.
+It basically goes through every posibility and gives them a certain score. At the beginning every score is going to be 0 because you only have a few rounds played which couldn't lead to a win or lose decison. But after 3 plays the algorithm starts really working with those score values.
+
+![Decison Tree Example](https://images.squarespace-cdn.com/content/v1/5a0c6978bff2001ef7581170/1513544600041-LK94ONS0M8TSFUFCPPNB/full-minimax-move-tree.png?format=1500w)
+
+All the scores are at the end of a loop calculated together. The Algorithm is going to choose the path with the most posibilites of winning so he choses the path with the most or the last points depending if he's maximizing or minimizing. And after you played your turn he's going to repeat this scenario depending on the descion you chose.
+So basically you are only able to lose or make a tie against the algorithm.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
